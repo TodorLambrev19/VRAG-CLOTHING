@@ -124,7 +124,7 @@ export default function ProductGrid({ limit }) {
                                 {product.category && <p className="category">{product.category}</p>}
                                 <div className="card-row">
                                     <h3>{product.title}</h3>
-                                    <p className="price">${product.price}</p>
+                                    <p className="price">€{product.price}</p>
                                 </div>
                             </div>
                         </Link>

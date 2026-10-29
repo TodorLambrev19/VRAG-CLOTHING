@@ -84,11 +84,11 @@ export default function Orders() {
                         </p>
                         <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
                             {order.items?.map((item, i) => (
-                                <li key={i}>{item.title}{item.size ? ` (${item.size})` : ''} × {item.quantity} — ${item.price}</li>
+                                <li key={i}>{item.title}{item.size ? ` (${item.size})` : ''} × {item.quantity} — €{item.price}</li>
                             ))}
                         </ul>
                         <p style={{ margin: '4px 0', color: 'white', fontWeight: 700 }}>
-                            Total to collect: ${Number(order.totalPrice).toFixed(2)}
+                            Total to collect: €{Number(order.totalPrice).toFixed(2)}
                         </p>
                     </div>
                 ))

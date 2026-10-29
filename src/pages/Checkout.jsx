@@ -426,14 +426,14 @@ export default function Checkout() {
                                             {item.size ? `Size: ${item.size} · ` : ''}Qty {item.quantity}
                                         </p>
                                     </div>
-                                    <p className="summary-item-price">${(item.price * item.quantity).toFixed(2)}</p>
+                                    <p className="summary-item-price">€{(item.price * item.quantity).toFixed(2)}</p>
                                 </div>
                             ))}
                         </div>
                         <div className="summary-divider" />
                         <div className="summary-total-row">
                             <span>Total</span>
-                            <span>${totalPrice.toFixed(2)}</span>
+                            <span>€{totalPrice.toFixed(2)}</span>
                         </div>
                         <p className="summary-note">Cash on delivery — no payment needed now</p>
                     </div>

@@ -6,7 +6,7 @@ export async function sendOrderToTelegram(env, order) {
     if (!token || !chatId) return;
 
     const items = (order.items || [])
-        .map(it => `• ${it.title}${it.size ? ` (${it.size})` : ''} × ${it.quantity} — $${it.price}`)
+        .map(it => `• ${it.title}${it.size ? ` (${it.size})` : ''} × ${it.quantity} — €${it.price}`)
         .join('\n');
 
     const delivery = order.delivery?.method === 'office'
@@ -23,7 +23,7 @@ export async function sendOrderToTelegram(env, order) {
         items,
         '',
         `🚚 ${delivery}`,
-        `💰 Total: $${Number(order.totalPrice).toFixed(2)} (cash on delivery)`,
+        `💰 Total: €${Number(order.totalPrice).toFixed(2)} (cash on delivery)`,
     ].filter(l => l !== null);
 
     try {

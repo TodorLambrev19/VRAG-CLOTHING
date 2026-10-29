@@ -85,7 +85,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                     </p>
                   )}
                   <p style={{ fontSize: '0.9rem', color: '#e63946', fontWeight: 700, marginBottom: '10px' }}>
-                    ${item.price}
+                    €{item.price}
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <button
@@ -133,7 +133,7 @@ export default function CartDrawer({ isOpen, onClose }) {
             }}>
               <span style={{ color: '#888', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.85rem' }}>Total</span>
               <span style={{ color: 'white', fontWeight: 700, fontSize: '1.2rem' }}>
-                ${totalPrice.toFixed(2)}
+                €{totalPrice.toFixed(2)}
               </span>
             </div>
             <button

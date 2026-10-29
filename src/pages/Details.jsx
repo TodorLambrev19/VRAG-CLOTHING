@@ -252,7 +252,7 @@ export default function Details() {
                             {product.title}
                         </h1>
                         <span style={{ color: '#e63946', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '4px' }}>
-                            ${product.price}
+                            €{product.price}
                         </span>
                         <span style={{ color: '#888', marginBottom: '20px' }}>
                             Category: {product.category}

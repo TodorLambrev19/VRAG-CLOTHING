@@ -120,7 +120,7 @@ export default function Edit() {
                     <input
                         type="number"
                         name="price"
-                        placeholder="Price ($)"
+                        placeholder="Price (€)"
                         value={formData.price}
                         onChange={handleChange}
                         required
