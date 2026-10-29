@@ -23,7 +23,6 @@ export default function Footer() {
             </Link>
           </div>
           <address className="footer-address">
-            <p>Адрес: София, бул. Цариградско Шосе</p>
             <p>Делнични дни: 10:00 - 20:00 ч.</p>
             <p>Събота: 11:00 - 18:00 ч.</p>
             <p>Телефон: +359 88 471 3115</p>

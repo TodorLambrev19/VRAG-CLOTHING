@@ -112,6 +112,9 @@ export default function Header({ onCartClick }) {
                         <Link to="/shop" className="nav-link" style={navLinkStyle}>SHOP</Link>
                         <Link to="/about" className="nav-link" style={navLinkStyle}>ABOUT</Link>
                         {isAdmin && (
+                            <Link to="/create" className="nav-link" style={navLinkStyle}>ADD PRODUCT</Link>
+                        )}
+                        {isAdmin && (
                             <Link to="/orders" className="nav-link" style={navLinkStyle}>ORDERS</Link>
                         )}
                         {isAdmin && (
@@ -133,6 +136,9 @@ export default function Header({ onCartClick }) {
                 <Link to="/" onClick={closeMenu}>HOME</Link>
                 <Link to="/shop" onClick={closeMenu}>SHOP</Link>
                 <Link to="/about" onClick={closeMenu}>ABOUT</Link>
+                {isAdmin && (
+                    <Link to="/create" onClick={closeMenu}>ADD PRODUCT</Link>
+                )}
                 {isAdmin && (
                     <Link to="/orders" onClick={closeMenu}>ORDERS</Link>
                 )}
