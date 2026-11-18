@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../api/products';
 
+const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
+
 export default function Create() {
     const navigate = useNavigate();
 
@@ -14,6 +16,7 @@ export default function Create() {
         soldOut: false,
         preOrder: false,
         imagesText: '',
+        soldOutSizes: [],
     });
 
     const [error, setError] = useState('');
@@ -24,6 +27,14 @@ export default function Create() {
             ...formData,
             [name]: type === 'checkbox' ? checked : value
         });
+    };
+    const toggleSoldOutSize = (size) => {
+        setFormData(prev => ({
+            ...prev,
+            soldOutSizes: prev.soldOutSizes.includes(size)
+                ? prev.soldOutSizes.filter(s => s !== size)
+                : [...prev.soldOutSizes, size],
+        }));
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,6 +54,7 @@ export default function Create() {
                 soldOut: formData.soldOut,
                 preOrder: formData.preOrder,
                 images: formData.imagesText.split('\n').map(s => s.trim()).filter(Boolean),
+                soldOutSizes: formData.soldOutSizes,
             });
 
 
@@ -139,6 +151,34 @@ export default function Create() {
                         style={{ width: 'auto' }}
                     />
                     <label htmlFor="soldOut" style={{ cursor: 'pointer' }}>Mark as sold out</label>
+                </div>
+
+                <div className="form-group">
+                    <span style={{ display: 'block', color: 'white', marginBottom: '8px' }}>Sold out sizes</span>
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                        {SIZES.map(size => {
+                            const checked = formData.soldOutSizes.includes(size);
+                            return (
+                                <label
+                                    key={size}
+                                    style={{
+                                        display: 'flex', alignItems: 'center', gap: '6px',
+                                        color: checked ? '#e63946' : '#ccc',
+                                        border: '1px solid #444', borderRadius: '2px',
+                                        padding: '6px 10px', cursor: 'pointer',
+                                    }}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={checked}
+                                        onChange={() => toggleSoldOutSize(size)}
+                                        style={{ width: 'auto' }}
+                                    />
+                                    {size}
+                                </label>
+                            );
+                        })}
+                    </div>
                 </div>
 
                 <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'white' }}>

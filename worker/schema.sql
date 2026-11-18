@@ -8,6 +8,7 @@ CREATE TABLE products (
   sold_out INTEGER NOT NULL DEFAULT 0,
   pre_order INTEGER NOT NULL DEFAULT 0,
   images TEXT NOT NULL DEFAULT '[]',
+  sold_out_sizes TEXT NOT NULL DEFAULT '[]',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

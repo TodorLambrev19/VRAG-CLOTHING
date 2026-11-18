@@ -268,30 +268,35 @@ export default function Details() {
                                     Size {sizeError && <span style={{ color: '#e63946' }}>— please select a size</span>}
                                 </span>
                                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                                    {SIZES.map(size => (
-                                        <button
-                                            key={size}
-                                            type="button"
-                                            onClick={() => { setSelectedSize(size); setSizeError(false); }}
-                                            style={{
-                                                width: '48px',
-                                                height: '48px',
-                                                padding: 0,
-                                                margin: 0,
-                                                flex: 'none',
-                                                background: selectedSize === size ? '#e63946' : 'transparent',
-                                                border: selectedSize === size ? '1px solid #e63946' : '1px solid #444',
-                                                color: selectedSize === size ? 'white' : '#ccc',
-                                                fontWeight: 700,
-                                                fontSize: '0.85rem',
-                                                cursor: 'pointer',
-                                                borderRadius: '2px',
-                                                transition: 'all 0.2s ease',
-                                            }}
-                                        >
-                                            {size}
-                                        </button>
-                                    ))}
+                                    {SIZES.map(size => {
+                                        const sizeSoldOut = (product.soldOutSizes || []).includes(size);
+                                        return (
+                                            <button
+                                                key={size}
+                                                type="button"
+                                                disabled={sizeSoldOut}
+                                                onClick={() => { setSelectedSize(size); setSizeError(false); }}
+                                                style={{
+                                                    width: '48px',
+                                                    height: '48px',
+                                                    padding: 0,
+                                                    margin: 0,
+                                                    flex: 'none',
+                                                    background: selectedSize === size ? '#e63946' : 'transparent',
+                                                    border: selectedSize === size ? '1px solid #e63946' : '1px solid #444',
+                                                    color: sizeSoldOut ? '#444' : (selectedSize === size ? 'white' : '#ccc'),
+                                                    textDecoration: sizeSoldOut ? 'line-through' : 'none',
+                                                    fontWeight: 700,
+                                                    fontSize: '0.85rem',
+                                                    cursor: sizeSoldOut ? 'not-allowed' : 'pointer',
+                                                    borderRadius: '2px',
+                                                    transition: 'all 0.2s ease',
+                                                }}
+                                            >
+                                                {size}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         )}

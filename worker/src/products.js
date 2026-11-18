@@ -8,6 +8,12 @@ function toProduct(row) {
     } catch {
         images = [];
     }
+    let soldOutSizes = [];
+    try {
+        soldOutSizes = JSON.parse(row.sold_out_sizes || '[]');
+    } catch {
+        soldOutSizes = [];
+    }
     return {
         id: String(row.id),
         title: row.title,
@@ -18,6 +24,7 @@ function toProduct(row) {
         description: row.description,
         soldOut: !!row.sold_out,
         preOrder: !!row.pre_order,
+        soldOutSizes,
         createdAt: row.created_at,
     };
 }
@@ -48,8 +55,8 @@ export async function createProduct(request, env) {
     }
 
     const { meta } = await env.DB
-        .prepare('INSERT INTO products (title, category, image_url, price, description, sold_out, pre_order, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-        .bind(body.title, body.category || null, body.imageUrl, Number(body.price), body.description || null, body.soldOut ? 1 : 0, body.preOrder ? 1 : 0, JSON.stringify(Array.isArray(body.images) ? body.images : []))
+        .prepare('INSERT INTO products (title, category, image_url, price, description, sold_out, pre_order, images, sold_out_sizes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+        .bind(body.title, body.category || null, body.imageUrl, Number(body.price), body.description || null, body.soldOut ? 1 : 0, body.preOrder ? 1 : 0, JSON.stringify(Array.isArray(body.images) ? body.images : []), JSON.stringify(Array.isArray(body.soldOutSizes) ? body.soldOutSizes : []))
         .run();
 
     return json({ id: String(meta.last_row_id) }, request, env, 201);
@@ -61,8 +68,8 @@ export async function updateProduct(id, request, env) {
 
     const body = await request.json();
     await env.DB
-        .prepare('UPDATE products SET title = ?, category = ?, image_url = ?, price = ?, description = ?, sold_out = ?, pre_order = ?, images = ? WHERE id = ?')
-        .bind(body.title, body.category || null, body.imageUrl, Number(body.price), body.description || null, body.soldOut ? 1 : 0, body.preOrder ? 1 : 0, JSON.stringify(Array.isArray(body.images) ? body.images : []), id)
+        .prepare('UPDATE products SET title = ?, category = ?, image_url = ?, price = ?, description = ?, sold_out = ?, pre_order = ?, images = ?, sold_out_sizes = ? WHERE id = ?')
+        .bind(body.title, body.category || null, body.imageUrl, Number(body.price), body.description || null, body.soldOut ? 1 : 0, body.preOrder ? 1 : 0, JSON.stringify(Array.isArray(body.images) ? body.images : []), JSON.stringify(Array.isArray(body.soldOutSizes) ? body.soldOutSizes : []), id)
         .run();
 
     return json({ ok: true }, request, env);
