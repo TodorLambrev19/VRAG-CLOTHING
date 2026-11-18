@@ -29,3 +29,11 @@ export async function updateOrderStatus(id, status) {
         body: JSON.stringify({ status }),
     });
 }
+
+export async function updateOrderItems(id, items) {
+    return request(`/api/admin/orders/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items }),
+    });
+}

@@ -65,6 +65,15 @@ export async function updateOrderStatus(id, request, env) {
     if (!auth.ok) return json({ error: auth.error }, request, env, auth.status);
 
     const body = await request.json();
+
+    if (body.items) {
+        await env.DB
+            .prepare('UPDATE orders SET items = ? WHERE id = ?')
+            .bind(JSON.stringify(body.items), id)
+            .run();
+        return json({ ok: true }, request, env);
+    }
+
     await env.DB
         .prepare('UPDATE orders SET status = ? WHERE id = ?')
         .bind(body.status, id)

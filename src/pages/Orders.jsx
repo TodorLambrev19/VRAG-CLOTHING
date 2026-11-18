@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllOrders, updateOrderStatus } from '../api/orders';
+import { getAllOrders, updateOrderStatus, updateOrderItems } from '../api/orders';
 import { useAdminSession } from '../hooks/useAdminSession';
 
 const STATUSES = ['pending', 'shipped', 'delivered', 'cancelled'];
@@ -36,6 +36,19 @@ export default function Orders() {
             await updateOrderStatus(id, status);
         } catch (error) {
             console.error('Failed to update order status:', error);
+        }
+    };
+
+    const handleItemToggle = async (orderId, itemIndex) => {
+        const order = orders.find(o => o.id === orderId);
+        if (!order) return;
+        const items = order.items.map((it, i) => i === itemIndex ? { ...it, done: !it.done } : it);
+
+        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, items } : o));
+        try {
+            await updateOrderItems(orderId, items);
+        } catch (error) {
+            console.error('Failed to update order items:', error);
         }
     };
 
@@ -82,9 +95,19 @@ export default function Orders() {
                                 ? `Econt office — ${order.delivery.officeName}, ${order.delivery.cityName}`
                                 : `Address — ${order.delivery?.address}, ${order.delivery?.cityName}`}
                         </p>
-                        <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
+                        <ul style={{ margin: '8px 0', paddingLeft: '0', listStyle: 'none' }}>
                             {order.items?.map((item, i) => (
-                                <li key={i}>{item.title}{item.size ? ` (${item.size})` : ''} × {item.quantity} — €{item.price}</li>
+                                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '2px 0' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={!!item.done}
+                                        onChange={() => handleItemToggle(order.id, i)}
+                                        style={{ width: 'auto', cursor: 'pointer' }}
+                                    />
+                                    <span style={{ textDecoration: item.done ? 'line-through' : 'none', color: item.done ? '#666' : '#ccc' }}>
+                                        {item.title}{item.size ? ` (${item.size})` : ''} × {item.quantity} — €{item.price}
+                                    </span>
+                                </li>
                             ))}
                         </ul>
                         <p style={{ margin: '4px 0', color: 'white', fontWeight: 700 }}>
